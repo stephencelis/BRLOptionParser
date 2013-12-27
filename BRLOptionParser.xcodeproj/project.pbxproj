@@ -14,6 +14,7 @@
 		DCFF6F50186D21E300BF640A /* BRLOptionParser.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DCFF6F37186D21E300BF640A /* BRLOptionParser.dylib */; };
 		DCFF6F56186D21E300BF640A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DCFF6F54186D21E300BF640A /* InfoPlist.strings */; };
 		DCFF6F58186D21E300BF640A /* BRLOptionParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFF6F57186D21E300BF640A /* BRLOptionParserTests.m */; };
+		F499EA75C2E44DDB905C94B5 /* libPods-BRLOptionParserTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D76A699FBFA4FE39F9BD0B2 /* libPods-BRLOptionParserTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +28,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F26DB55E64B49E99E1661F2 /* Pods-BRLOptionParserTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRLOptionParserTests.xcconfig"; path = "Pods/Pods-BRLOptionParserTests.xcconfig"; sourceTree = "<group>"; };
+		7D76A699FBFA4FE39F9BD0B2 /* libPods-BRLOptionParserTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BRLOptionParserTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCFF6F37186D21E300BF640A /* BRLOptionParser.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = BRLOptionParser.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCFF6F3A186D21E300BF640A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DCFF6F3D186D21E300BF640A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -58,6 +61,7 @@
 				DCFF6F4D186D21E300BF640A /* Cocoa.framework in Frameworks */,
 				DCFF6F50186D21E300BF640A /* BRLOptionParser.dylib in Frameworks */,
 				DCFF6F4C186D21E300BF640A /* XCTest.framework in Frameworks */,
+				F499EA75C2E44DDB905C94B5 /* libPods-BRLOptionParserTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +75,7 @@
 				DCFF6F51186D21E300BF640A /* BRLOptionParserTests */,
 				DCFF6F39186D21E300BF640A /* Frameworks */,
 				DCFF6F38186D21E300BF640A /* Products */,
+				0F26DB55E64B49E99E1661F2 /* Pods-BRLOptionParserTests.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -89,6 +94,7 @@
 				DCFF6F3A186D21E300BF640A /* Cocoa.framework */,
 				DCFF6F4B186D21E300BF640A /* XCTest.framework */,
 				DCFF6F3C186D21E300BF640A /* Other Frameworks */,
+				7D76A699FBFA4FE39F9BD0B2 /* libPods-BRLOptionParserTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -173,9 +179,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DCFF6F5E186D21E300BF640A /* Build configuration list for PBXNativeTarget "BRLOptionParserTests" */;
 			buildPhases = (
+				B77D4288DD014F5AA708DB2F /* Check Pods Manifest.lock */,
 				DCFF6F46186D21E300BF640A /* Sources */,
 				DCFF6F47186D21E300BF640A /* Frameworks */,
 				DCFF6F48186D21E300BF640A /* Resources */,
+				9D93C9BFAA1F43B4820DB881 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -229,6 +237,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9D93C9BFAA1F43B4820DB881 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-BRLOptionParserTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B77D4288DD014F5AA708DB2F /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DCFF6F33186D21E300BF640A /* Sources */ = {
@@ -300,7 +341,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -332,7 +373,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -361,6 +402,7 @@
 		};
 		DCFF6F5F186D21E300BF640A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0F26DB55E64B49E99E1661F2 /* Pods-BRLOptionParserTests.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BRLOptionParser.dylib";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -383,6 +425,7 @@
 		};
 		DCFF6F60186D21E300BF640A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0F26DB55E64B49E99E1661F2 /* Pods-BRLOptionParserTests.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BRLOptionParser.dylib";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -418,6 +461,7 @@
 				DCFF6F5D186D21E300BF640A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DCFF6F5E186D21E300BF640A /* Build configuration list for PBXNativeTarget "BRLOptionParserTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +470,7 @@
 				DCFF6F60186D21E300BF640A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
