@@ -52,8 +52,6 @@ typedef NS_ENUM(NSUInteger, BRLOptionParserErrorCode) {
 - (void)addSeparator;
 - (void)addSeparator:(NSString *)separator;
 
-- (BOOL)parse:(NSError **)error;
-- (BOOL)parseArguments:(NSArray *)arguments error:(NSError **)error;
 - (BOOL)parseArgc:(int)argc argv:(const char **)argv error:(NSError **)error;
 
 @end

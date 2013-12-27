@@ -138,28 +138,8 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
     [self.options addObject:separator];
 }
 
-- (BOOL)parse:(NSError *__autoreleasing *)error
-{
-    return [self parseArguments:[[NSProcessInfo processInfo] arguments] error:error];
-}
-
-- (BOOL)parseArguments:(NSArray *)arguments error:(NSError *__autoreleasing *)error
-{
-    int argc = (int)[arguments count];
-    const char ** argv = malloc(sizeof(char *) * (argc + 1));
-
-    [arguments enumerateObjectsUsingBlock:^(NSString *arg, NSUInteger idx, BOOL *stop) {
-        argv[idx] = [arg UTF8String];
-    }];
-    argv[argc] = NULL;
-
-    return [self parseArgc:argc argv:argv error:error];
-}
-
 - (BOOL)parseArgc:(int)argc argv:(const char **)argv error:(NSError *__autoreleasing *)error
 {
-    optind = 0;
-
     NSMapTable *mapTable = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, [self.options count]);
 
     NSUInteger i = 0;

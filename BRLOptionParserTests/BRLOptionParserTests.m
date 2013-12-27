@@ -9,6 +9,7 @@ describe(@"BRLOptionParser", ^{
     __block NSError *error;
 
     beforeEach(^{
+        optind = 0;
         options = [BRLOptionParser new];
         error = nil;
     });
@@ -160,29 +161,6 @@ describe(@"BRLOptionParser", ^{
                 [[@([options parseArgc:argc argv:argv error:&error]) should] beNo];
                 [[error shouldNot] beNil];
                 [[@([error code]) should] equal:@(BRLOptionParserErrorCodeUnrecognized)];
-            });
-        });
-
-        context(@"methods", ^{
-            __block BOOL flag;
-            __block NSArray *arguments = @[@"app", @"-h"];
-
-            beforeEach(^{
-                flag = NO;
-                [options addOption:NULL flag:'h' description:nil value:&flag];
-            });
-
-            it(@"works with an explicit array", ^{
-                [[@([options parseArguments:arguments error:&error]) should] beYes];
-                [[error should] beNil];
-                [[@(flag) should] beYes];
-            });
-
-            it(@"works with implicit arguments", ^{
-                [[NSProcessInfo processInfo] stub:@selector(arguments) andReturn:arguments];
-                [[@([options parse:&error]) should] beYes];
-                [[error should] beNil];
-                [[@(flag) should] beYes];
             });
         });
 
