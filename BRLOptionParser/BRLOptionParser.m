@@ -86,6 +86,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 - (id)init
 {
     if (self = [super init]) {
+        [self setBanner:@"usage: %@ [options]", [[NSProcessInfo processInfo] processName]];
         self.options = [NSMutableArray array];
     }
     return self;
@@ -95,7 +96,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 {
     va_list args;
     va_start(args, banner);
-    _banner = [[[NSString alloc] initWithFormat:banner arguments:args] stringByAppendingString:@"\n"];
+    _banner = [[NSString alloc] initWithFormat:banner arguments:args];
     va_end(args);
     return;
 }
@@ -122,6 +123,19 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
     [self addOption:option flag:flag description:description blockWithArgument:^(NSString *value) {
         *argument = value;
     }];
+}
+
+- (void)addSeparator
+{
+    [self addSeparator:nil];
+}
+
+- (void)addSeparator:(NSString *)separator
+{
+    if (separator == nil) {
+        separator = @"";
+    }
+    [self.options addObject:separator];
 }
 
 - (BOOL)parse:(NSError *__autoreleasing *)error
@@ -154,7 +168,11 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
     struct option * long_options = malloc(([self.options count] + 1) * sizeof(struct option));
     char * short_options = malloc((([self.options count] * 2) + 1) * sizeof(char));
 
-    for (BRLOption *option in self.options) {
+    for (id each in self.options) {
+        if (![each isKindOfClass:[BRLOption class]]) {
+            continue;
+        }
+        BRLOption *option = each;
         if (option.name) {
             NSMapInsert(mapTable, (const void *)option.name, (__bridge void *)option);
             long_options[i++] = (struct option){option.name, option.argument, NULL, option.flag};
@@ -218,11 +236,45 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 
 - (NSString *)description
 {
-    if (self.banner) {
-        return self.banner;
+    NSMutableString *(^trimLine)(NSMutableString *) = ^NSMutableString *(NSMutableString *line) {
+        NSRange range = [line rangeOfCharacterFromSet:[[NSCharacterSet whitespaceCharacterSet] invertedSet] options:NSBackwardsSearch];
+        if (range.location != NSNotFound) {
+            line = [[line substringToIndex:range.location + 1] mutableCopy];
+        }
+        return line;
+    };
+
+    NSMutableArray *description = [NSMutableArray arrayWithObject:self.banner];
+    for (id each in self.options) {
+        NSMutableString *line = [NSMutableString string];
+        if ([each isKindOfClass:[BRLOption class]]) {
+            BRLOption *option = each;
+            [line appendString:@"    "];
+            if (option.flag) {
+                [line appendFormat:@"-%c", option.flag];
+                [line appendString:option.name ? @", " : @"  "];
+            } else {
+                [line appendString:@"    "];
+            }
+            if (option.name) {
+                [line appendFormat:@"--%-24s   ", option.name];
+            } else {
+                [line appendString:@"                             "];
+            }
+            if ([line length] > 37) {
+                line = trimLine(line);
+                [line appendString:@"\n                                     "];
+            }
+            if (option.description) {
+                [line appendString:option.description];
+            }
+            line = trimLine(line);
+        } else {
+            [line appendFormat:@"%@", each];
+        }
+        [description addObject:line];
     }
-    
-    return [super description];
+    return [[description componentsJoinedByString:@"\n"] stringByAppendingString:@"\n"];
 }
 
 @end

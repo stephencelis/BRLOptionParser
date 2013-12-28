@@ -30,10 +30,9 @@ int main(int argc, const char * argv[])
         BRLOptionParser *options = [BRLOptionParser new];
 
         [options setBanner:@"usage: %s [-n <name>] [-vh]", argv[0]];
-
         [options addOption:"name" flag:'n' description:@"Your name" argument:&name];
+        [options addSeparator];
         [options addOption:"verbose" flag:'v' description:nil value:&verbose];
-
         __weak typeof(options) weakOptions = options;
         [options addOption:"help" flag:'h' description:@"Show this message" block:^{
             printf("%s", [[weakOptions description] UTF8String]);
@@ -65,6 +64,10 @@ $ hello
 Hello, world!
 $ hello -h
 usage: hello [-n <name>] [-vh]
+    -n, --name                       Your name
+
+    -v, --verbose
+    -h, --help                       Show this message
 $ hello -n
 hello: option `-n' requires an argument
 $ hello --name Stephen

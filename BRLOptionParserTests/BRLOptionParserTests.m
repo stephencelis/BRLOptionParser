@@ -185,6 +185,55 @@ describe(@"BRLOptionParser", ^{
                 [[@(flag) should] beYes];
             });
         });
+
+        it(@"works with a separator", ^{
+            [options addSeparator];
+            int argc = 1;
+            const char * argv[] = {"app", 0};
+            [[@([options parseArgc:argc argv:argv error:&error]) should] beYes];
+            [[error should] beNil];
+        });
+    });
+
+    context(@"usage", ^{
+        it(@"prints default banners", ^{
+            NSString *usage =
+            @"usage: xctest [options]\n";
+
+            [[NSProcessInfo processInfo] stub:@selector(processName) andReturn:@"xctest"];
+            [[[options description] should] equal:usage];
+        });
+
+        it(@"prints custom banners", ^{
+            NSString *usage =
+            @"usage: expected [OPTIONS]\n";
+
+            [options setBanner:@"usage: expected [OPTIONS]"];
+
+            [[[options description] should] equal:usage];
+        });
+
+        it(@"prints and formats options", ^{
+            NSString *usage =
+            @"usage: app [options]\n"
+            @"        --a-really-long-option-that-overflows\n"
+            @"                                     Is described over here\n"
+            @"    -0\n"
+            @"\n"
+            @"Other options:\n"
+            @"        --version                    Show version\n"
+            @"    -h, --help                       Show this screen\n";
+
+            [options setBanner:@"usage: app [options]"];
+            [options addOption:"a-really-long-option-that-overflows" flag:0 description:@"Is described over here" value:NULL];
+            [options addOption:NULL flag:'0' description:nil value:NULL];
+            [options addSeparator];
+            [options addSeparator:@"Other options:"];
+            [options addOption:"version" flag:0 description:@"Show version" value:NULL];
+            [options addOption:"help" flag:'h' description:@"Show this screen" value:NULL];
+
+            [[[options description] should] equal:usage];
+        });
     });
 });
 
