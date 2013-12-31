@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'BRLOptionParser'
-  s.version  = '0.1.0'
+  s.version  = '0.2.0'
   s.license  = { :type => 'MIT', :file => 'LICENSE' }
   s.summary  = 'A short wrapper for getopt_long(3).'
   s.homepage = 'https://github.com/barrelage/BRLOptionParser'
@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
 
   s.source   = {
     :git => 'https://github.com/barrelage/BRLOptionParser.git',
-    :tag => 'v0.1.0'
+    :tag => 'v0.2.0'
   }
 
   s.requires_arc = true
