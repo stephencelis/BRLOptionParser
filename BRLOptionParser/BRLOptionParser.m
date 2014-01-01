@@ -173,41 +173,56 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 
     opterr = 0;
 
+    int cached_optind = optind;
     while ((ch = getopt_long(argc, (char **)argv, short_options, long_options, &long_options_index)) != -1) {
-        BRLOption *option = nil;
+        @try {
+            BRLOption *option = nil;
 
-        switch (ch) {
-            case '?': {
-                if (error) {
-                    NSString *arg = [NSString stringWithUTF8String:argv[optind - 1]];
-                    if (optopt) {
-                        option = (__bridge BRLOption *)NSMapGet(mapTable, (const void *)(NSUInteger)optopt);
-                    }
+            switch (ch) {
+                case '?': {
+                    if (error) {
+                        // I wish this could be done more cleanly, but getopt doesn't appear to expose the current failing option as originally input.
+                        NSString *arg = [NSString stringWithUTF8String:argv[cached_optind]];
+                        if ([arg hasPrefix:@"--"]) {
+                            arg = [[arg componentsSeparatedByString:@"="] firstObject];
+                        } else if (optopt) {
+                            arg = [NSString stringWithFormat:@"-%c", optopt];
+                        }
 
-                    if (option && option.argument == BRLOptionArgumentRequired) {
-                        *error = [NSError errorWithDomain:BRLOptionParserErrorDomain code:BRLOptionParserErrorCodeRequired userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"option `%@' requires an argument", arg]}];
-                    } else {
-                        *error = [NSError errorWithDomain:BRLOptionParserErrorDomain code:BRLOptionParserErrorCodeUnrecognized userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"unrecognized option `%@'", arg]}];
+                        if (optopt) {
+                            option = (__bridge BRLOption *)NSMapGet(mapTable, (const void *)(NSUInteger)optopt);
+                        }
+
+                        if (option && option.argument == BRLOptionArgumentRequired) {
+                            *error = [NSError errorWithDomain:BRLOptionParserErrorDomain code:BRLOptionParserErrorCodeRequired userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"option `%@' requires an argument", arg]}];
+                        } else {
+                            *error = [NSError errorWithDomain:BRLOptionParserErrorDomain code:BRLOptionParserErrorCodeUnrecognized userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"unrecognized option `%@'", arg]}];
+                        }
                     }
+                    return NO;
+                    break;
                 }
-                return NO;
-                break;
-            }
-            case 0:
-                option = (__bridge BRLOption *)NSMapGet(mapTable, (const void *)long_options[long_options_index].name);
-                break;
-            default: {
-                option = (__bridge BRLOption *)NSMapGet(mapTable, (const void *)(NSUInteger)ch);
-                break;
-            }
-        }
+                case ':':
 
-        if (option.argument == BRLOptionArgumentRequired) {
-            BRLOptionParserOptionBlockWithArgument block = option.block;
-            block([NSString stringWithUTF8String:optarg]);
-        } else {
-            BRLOptionParserOptionBlock block = option.block;
-            block();
+                    break;
+                case 0:
+                    option = (__bridge BRLOption *)NSMapGet(mapTable, (const void *)long_options[long_options_index].name);
+                    break;
+                default: {
+                    option = (__bridge BRLOption *)NSMapGet(mapTable, (const void *)(NSUInteger)ch);
+                    break;
+                }
+            }
+
+            if (option.argument == BRLOptionArgumentRequired) {
+                BRLOptionParserOptionBlockWithArgument block = option.block;
+                block([NSString stringWithUTF8String:optarg]);
+            } else {
+                BRLOptionParserOptionBlock block = option.block;
+                block();
+            }
+        } @finally {
+            cached_optind = optind;
         }
     }
 

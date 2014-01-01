@@ -9,7 +9,7 @@ describe(@"BRLOptionParser", ^{
     __block NSError *error;
 
     beforeEach(^{
-        optind = 0;
+        optind = 1;
         options = [BRLOptionParser new];
         error = nil;
     });
@@ -143,24 +143,52 @@ describe(@"BRLOptionParser", ^{
             });
 
             context(@"that are missing", ^{
-                it(@"fails", ^{
-                    [options addOption:NULL flag:'H' description:nil argument:&string];
+                __block BOOL flag = NO;
+
+                beforeEach(^{
+                    [options addOption:"hello" flag:'H' description:nil argument:&string];
+                    [options addOption:"verbose" flag:'v' description:nil value:&flag];
+                });
+
+                it(@"fails with a short option", ^{
                     int argc = 2;
-                    const char * argv[] = {"app", argument, 0};
+                    const char * argv[] = {"app", "-vH", 0};
                     [[@([options parseArgc:argc argv:argv error:&error]) should] beNo];
                     [[error shouldNot] beNil];
                     [[@([error code]) should] equal:@(BRLOptionParserErrorCodeRequired)];
+                    [[[error localizedDescription] should] equal:@"option `-H' requires an argument"];
+                });
+
+                it(@"fails with a long option", ^{
+                    int argc = 3;
+                    const char * argv[] = {"app", "--verbose", "--hello", 0};
+                    [[@([options parseArgc:argc argv:argv error:&error]) should] beNo];
+                    [[error shouldNot] beNil];
+                    [[@([error code]) should] equal:@(BRLOptionParserErrorCodeRequired)];
+                    [[[error localizedDescription] should] equal:@"option `--hello' requires an argument"];
                 });
             });
         });
 
         context(@"unrecognized arguments", ^{
-            it(@"fails", ^{
+            it(@"fails with a short option", ^{
+                BOOL flag = NO;
+                [options addOption:NULL flag:'h' description:nil value:&flag];
                 int argc = 2;
                 const char * argv[] = {"app", "-hi", 0};
                 [[@([options parseArgc:argc argv:argv error:&error]) should] beNo];
                 [[error shouldNot] beNil];
                 [[@([error code]) should] equal:@(BRLOptionParserErrorCodeUnrecognized)];
+                [[[error localizedDescription] should] equal:@"unrecognized option `-i'"];
+            });
+
+            it(@"fails with a long option", ^{
+                int argc = 2;
+                const char * argv[] = {"app", "--hello=world", 0};
+                [[@([options parseArgc:argc argv:argv error:&error]) should] beNo];
+                [[error shouldNot] beNil];
+                [[@([error code]) should] equal:@(BRLOptionParserErrorCodeUnrecognized)];
+                [[[error localizedDescription] should] equal:@"unrecognized option `--hello'"];
             });
         });
 
