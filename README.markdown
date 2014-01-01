@@ -1,6 +1,6 @@
 # BRLOptionParser [![Build Status][1]][2]
 
-A short wrapper for [getopt_long(3)][3].
+A short wrapper for [getopt_long(3)][3] (and getopt_long_only(3)).
 
 [1]: https://travis-ci.org/barrelage/BRLOptionParser.png
 [2]: https://travis-ci.org/barrelage/BRLOptionParser
