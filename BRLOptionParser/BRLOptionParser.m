@@ -83,6 +83,20 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 
 @implementation BRLOptionParser
 
++ (instancetype)parser
+{
+    return [self new];
+}
+
++ (instancetype)longOnlyParser
+{
+    BRLOptionParser *parser = [self parser];
+    if (parser) {
+        parser.longOnly = YES;
+    }
+    return parser;
+}
+
 - (id)init
 {
     if (self = [super init]) {
@@ -140,11 +154,6 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 
 - (BOOL)parseArgc:(int)argc argv:(const char **)argv error:(NSError *__autoreleasing *)error
 {
-    return [self parseArgc:argc argv:argv longOnly:NO error:error];
-}
-
-- (BOOL)parseArgc:(int)argc argv:(const char **)argv longOnly:(BOOL)longOnly error:(NSError *__autoreleasing *)error
-{
     NSMapTable *mapTable = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, [self.options count]);
 
     NSUInteger i = 0;
@@ -179,7 +188,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
     opterr = 0;
 
     int (* getopt_long_method)(int, char * const *, const char *, const struct option *, int *);
-    getopt_long_method = longOnly ? &getopt_long_only : &getopt_long;
+    getopt_long_method = self.isLongOnly ? &getopt_long_only : &getopt_long;
 
     int cached_optind = optind;
     while ((ch = getopt_long_method(argc, (char **)argv, short_options, long_options, &long_options_index)) != -1) {

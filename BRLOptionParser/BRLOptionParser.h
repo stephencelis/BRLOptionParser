@@ -39,6 +39,11 @@ typedef NS_ENUM(NSUInteger, BRLOptionParserErrorCode) {
 
 @interface BRLOptionParser : NSObject
 
++ (instancetype)parser;
++ (instancetype)longOnlyParser;
+
+@property (nonatomic, getter = isLongOnly) BOOL longOnly;
+
 @property (nonatomic, copy) NSString *banner;
 
 - (void)setBanner:(NSString *)banner, ...;
@@ -53,6 +58,5 @@ typedef NS_ENUM(NSUInteger, BRLOptionParserErrorCode) {
 - (void)addSeparator:(NSString *)separator;
 
 - (BOOL)parseArgc:(int)argc argv:(const char **)argv error:(NSError **)error;
-- (BOOL)parseArgc:(int)argc argv:(const char **)argv longOnly:(BOOL)longOnly error:(NSError **)error;
 
 @end

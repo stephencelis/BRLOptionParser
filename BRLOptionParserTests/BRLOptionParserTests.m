@@ -195,10 +195,11 @@ describe(@"BRLOptionParser", ^{
         context(@"long-only", ^{
             it(@"works", ^{
                 BOOL flag = NO;
+                options.longOnly = YES;
                 [options addOption:"help" flag:0 description:nil value:&flag];
                 int argc = 2;
                 const char * argv[] = {"app", "-help", 0};
-                [[@([options parseArgc:argc argv:argv longOnly:YES error:&error]) should] beYes];
+                [[@([options parseArgc:argc argv:argv error:&error]) should] beYes];
                 [[error should] beNil];
                 [[@(flag) should] beYes];
             });
