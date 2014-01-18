@@ -193,15 +193,31 @@ describe(@"BRLOptionParser", ^{
         });
 
         context(@"long-only", ^{
+            beforeEach(^{
+                options.longOnly = YES;
+            });
+
             it(@"works", ^{
                 BOOL flag = NO;
-                options.longOnly = YES;
                 [options addOption:"help" flag:0 description:nil value:&flag];
                 int argc = 2;
                 const char * argv[] = {"app", "-help", 0};
                 [[@([options parseArgc:argc argv:argv error:&error]) should] beYes];
                 [[error should] beNil];
                 [[@(flag) should] beYes];
+            });
+
+            context(@"with arguments", ^{
+                it(@"fails with a proper error", ^{
+                    NSString *string = nil;
+                    [options addOption:"hello" flag:0 description:nil argument:&string];
+                    int argc = 2;
+                    const char * argv[] = {"app", "-hello", 0};
+                    [[@([options parseArgc:argc argv:argv error:&error]) should] beNo];
+                    [[error shouldNot] beNil];
+                    [[@([error code]) should] equal:@(BRLOptionParserErrorCodeRequired)];
+                    [[[error localizedDescription] should] equal:@"option `-hello' requires an argument"];
+                });
             });
         });
 

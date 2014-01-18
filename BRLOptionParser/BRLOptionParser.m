@@ -200,7 +200,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
                     if (error) {
                         // I wish this could be done more cleanly, but getopt doesn't appear to expose the current failing option as originally input.
                         NSString *arg = [NSString stringWithUTF8String:argv[cached_optind]];
-                        if ([arg hasPrefix:@"--"]) {
+                        if ([arg hasPrefix:[self longPrefix]]) {
                             arg = [[arg componentsSeparatedByString:@"="] firstObject];
                         } else if (optopt) {
                             arg = [NSString stringWithFormat:@"-%c", optopt];
@@ -208,6 +208,11 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 
                         if (optopt) {
                             option = (__bridge BRLOption *)NSMapGet(mapTable, (const void *)(NSUInteger)optopt);
+                        } else {
+                            NSString *longOption = [NSString stringWithFormat:@"%@%s", [self longPrefix], long_options[long_options_index].name];
+                            if ([arg isEqualToString:longOption]) {
+                                option = (__bridge BRLOption *)NSMapGet(mapTable, (const void *)long_options[long_options_index].name);
+                            }
                         }
 
                         if (option && option.argument == BRLOptionArgumentRequired) {
@@ -269,7 +274,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
                 [line appendString:@"    "];
             }
             if (option.name) {
-                [line appendFormat:@"%@%-24s   ", self.isLongOnly ? @"-" : @"--", option.name];
+                [line appendFormat:@"%@%-24s   ", [self longPrefix], option.name];
             } else {
                 [line appendString:@"                             "];
             }
@@ -287,6 +292,13 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
         [description addObject:line];
     }
     return [[description componentsJoinedByString:@"\n"] stringByAppendingString:@"\n"];
+}
+
+#pragma mark -
+
+- (NSString *)longPrefix
+{
+    return self.isLongOnly ? @"-" : @"--";
 }
 
 @end
