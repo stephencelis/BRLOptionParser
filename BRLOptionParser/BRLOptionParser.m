@@ -269,7 +269,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
                 [line appendString:@"    "];
             }
             if (option.name) {
-                [line appendFormat:@"--%-24s   ", option.name];
+                [line appendFormat:@"%@%-24s   ", self.isLongOnly ? @"-" : @"--", option.name];
             } else {
                 [line appendString:@"                             "];
             }
