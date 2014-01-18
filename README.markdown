@@ -83,6 +83,6 @@ hello: unrecognized option `--goodbye'
 
 ## License
 
-BRLOptionParsing is available under the MIT license. See the LICENSE
-file for more information.
+BRLOptionParser is available under the MIT license. See the LICENSE file
+for more information.
 
