@@ -12,7 +12,7 @@ With [CocoaPods][4]:
 
 ``` rb
 # Podfile
-pod 'BRLOptionParser', '~> 0.2.0'
+pod 'BRLOptionParser', '~> 0.3.0'
 ```
 
 [4]: http://cocoapods.org
