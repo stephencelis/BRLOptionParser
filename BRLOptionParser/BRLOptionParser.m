@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 @property (assign) BRLOptionArgument argument;
 @property (assign) char * name;
 @property (assign) unichar flag;
-@property (strong) NSString *description;
+@property (strong) NSString *helpDescription;
 @property (copy) id block;
 
 + (instancetype)optionWithName:(char *)name flag:(unichar)flag description:(NSString *)description block:(BRLOptionParserOptionBlock)block;
@@ -66,7 +66,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
         self.name = name;
         self.flag = flag;
         self.block = block;
-        self.description = description;
+        self.helpDescription = description;
     }
     return self;
 }
@@ -282,8 +282,8 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
                 line = trimLine(line);
                 [line appendString:@"\n                                     "];
             }
-            if (option.description) {
-                [line appendString:option.description];
+            if (option.helpDescription) {
+                [line appendString:option.helpDescription];
             }
             line = trimLine(line);
         } else {
