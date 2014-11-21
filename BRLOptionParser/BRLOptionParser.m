@@ -47,6 +47,8 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 
 @implementation BRLOption
 
+@synthesize description = _description;
+
 + (instancetype)optionWithName:(char *)name flag:(unichar)flag description:(NSString *)description block:(BRLOptionParserOptionBlock)block
 {
     BRLOption *option = [[self alloc] initWithName:name flag:flag description:description argument:BRLOptionArgumentNone block:block];
