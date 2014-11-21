@@ -28,7 +28,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0F26DB55E64B49E99E1661F2 /* Pods-BRLOptionParserTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRLOptionParserTests.xcconfig"; path = "Pods/Pods-BRLOptionParserTests.xcconfig"; sourceTree = "<group>"; };
+		3DDA8BFE74952A2F7F83A36C /* Pods-BRLOptionParserTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRLOptionParserTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BRLOptionParserTests/Pods-BRLOptionParserTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4B5904FFB42D1E8CFD812138 /* Pods-BRLOptionParserTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BRLOptionParserTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BRLOptionParserTests/Pods-BRLOptionParserTests.release.xcconfig"; sourceTree = "<group>"; };
 		7D76A699FBFA4FE39F9BD0B2 /* libPods-BRLOptionParserTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BRLOptionParserTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCFF6F37186D21E300BF640A /* BRLOptionParser.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = BRLOptionParser.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCFF6F3A186D21E300BF640A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -68,6 +69,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A3054FB120237CA5070F7FA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3DDA8BFE74952A2F7F83A36C /* Pods-BRLOptionParserTests.debug.xcconfig */,
+				4B5904FFB42D1E8CFD812138 /* Pods-BRLOptionParserTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		DCFF6F2E186D21E300BF640A = {
 			isa = PBXGroup;
 			children = (
@@ -75,7 +85,7 @@
 				DCFF6F51186D21E300BF640A /* BRLOptionParserTests */,
 				DCFF6F39186D21E300BF640A /* Frameworks */,
 				DCFF6F38186D21E300BF640A /* Products */,
-				0F26DB55E64B49E99E1661F2 /* Pods-BRLOptionParserTests.xcconfig */,
+				2A3054FB120237CA5070F7FA /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -201,7 +211,7 @@
 		DCFF6F2F186D21E300BF640A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Barrel Age";
 				TargetAttributes = {
 					DCFF6F49186D21E300BF640A = {
@@ -251,7 +261,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-BRLOptionParserTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BRLOptionParserTests/Pods-BRLOptionParserTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B77D4288DD014F5AA708DB2F /* Check Pods Manifest.lock */ = {
@@ -381,6 +391,7 @@
 		DCFF6F5C186D21E300BF640A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -392,6 +403,7 @@
 		DCFF6F5D186D21E300BF640A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -402,7 +414,7 @@
 		};
 		DCFF6F5F186D21E300BF640A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F26DB55E64B49E99E1661F2 /* Pods-BRLOptionParserTests.xcconfig */;
+			baseConfigurationReference = 3DDA8BFE74952A2F7F83A36C /* Pods-BRLOptionParserTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BRLOptionParser.dylib";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -425,7 +437,7 @@
 		};
 		DCFF6F60186D21E300BF640A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F26DB55E64B49E99E1661F2 /* Pods-BRLOptionParserTests.xcconfig */;
+			baseConfigurationReference = 4B5904FFB42D1E8CFD812138 /* Pods-BRLOptionParserTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/BRLOptionParser.dylib";
 				COMBINE_HIDPI_IMAGES = YES;

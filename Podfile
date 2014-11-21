@@ -1,4 +1,4 @@
 target 'BRLOptionParserTests' do
-  pod 'Kiwi/XCTest', '~> 2.2.3'
+  pod 'Kiwi'
 end
 
