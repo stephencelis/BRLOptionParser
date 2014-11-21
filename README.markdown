@@ -2,8 +2,8 @@
 
 A short wrapper for [getopt_long(3)][3] (and getopt_long_only(3)).
 
-[1]: https://travis-ci.org/barrelage/BRLOptionParser.png
-[2]: https://travis-ci.org/barrelage/BRLOptionParser
+[1]: https://travis-ci.org/stephencelis/BRLOptionParser.png
+[2]: https://travis-ci.org/stephencelis/BRLOptionParser
 [3]: https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man3/getopt_long.3.html
 
 ## Install
