@@ -265,7 +265,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 
     NSMutableArray *description = [NSMutableArray arrayWithObject:self.banner];
     for (id each in self.options) {
-        NSMutableString *line = [NSMutableString string];
+        NSMutableString *line = [NSMutableString new];
         if ([each isKindOfClass:[BRLOption class]]) {
             BRLOption *option = each;
             [line appendString:@"    "];
