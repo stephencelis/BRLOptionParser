@@ -64,11 +64,11 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 - (instancetype)initWithName:(char *)name flag:(unichar)flag description:(NSString *)description argument:(BRLOptionArgument)argument block:(id)block
 {
     if (self = [super init]) {
-        self.argument = argument;
-        self.name = name;
-        self.flag = flag;
-        self.block = block;
-        self.description = description;
+        _argument = argument;
+        _name = name;
+        _flag = flag;
+        _block = block;
+        _description = description;
     }
     return self;
 }
@@ -103,7 +103,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 {
     if (self = [super init]) {
         [self setBanner:@"usage: %@ [options]", [[NSProcessInfo processInfo] processName]];
-        self.options = [NSMutableArray array];
+        _options = [NSMutableArray new];
     }
     return self;
 }
