@@ -43,7 +43,7 @@ int main(int argc, const char * argv[])
 
         NSError *error = nil;
         if (![options parseArgc:argc argv:argv error:&error]) {
-            const char * message = [[error localizedDescription] UTF8String];
+            const char * message = error.localizedDescription.UTF8String;
             fprintf(stderr, "%s: %s\n", argv[0], message);
             exit(EXIT_FAILURE);
         }
@@ -52,7 +52,7 @@ int main(int argc, const char * argv[])
             fprintf(stderr, "(Preparing to say hello...)\n");
         }
 
-        printf("Hello, %s!\n", [name UTF8String]);
+        printf("Hello, %s!\n", name.UTF8String);
     }
 
     return EXIT_SUCCESS;

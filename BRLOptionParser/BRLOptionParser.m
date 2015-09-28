@@ -102,7 +102,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 - (id)init
 {
     if (self = [super init]) {
-        [self setBanner:@"usage: %@ [options]", [[NSProcessInfo processInfo] processName]];
+        [self setBanner:@"usage: %@ [options]", [NSProcessInfo processInfo].processName];
         _options = [NSMutableArray new];
     }
     return self;
@@ -156,13 +156,13 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
 
 - (BOOL)parseArgc:(int)argc argv:(const char **)argv error:(NSError *__autoreleasing *)error
 {
-    NSMapTable *mapTable = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, [self.options count]);
+    NSMapTable *mapTable = NSCreateMapTable(NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, self.options.count);
 
     NSUInteger i = 0;
     NSUInteger c = 0;
 
-    struct option * long_options = malloc(([self.options count] + 1) * sizeof(struct option));
-    char * short_options = malloc((([self.options count] * 2) + 1) * sizeof(char));
+    struct option * long_options = malloc((self.options.count + 1) * sizeof(struct option));
+    char * short_options = malloc(((self.options.count * 2) + 1) * sizeof(char));
 
     for (id each in self.options) {
         if (![each isKindOfClass:[BRLOption class]]) {
@@ -203,7 +203,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
                         // I wish this could be done more cleanly, but getopt doesn't appear to expose the current failing option as originally input.
                         NSString *arg = [NSString stringWithUTF8String:argv[cached_optind]];
                         if ([arg hasPrefix:[self longPrefix]]) {
-                            arg = [[arg componentsSeparatedByString:@"="] firstObject];
+                            arg = [arg componentsSeparatedByString:@"="].firstObject;
                         } else if (optopt) {
                             arg = [NSString stringWithFormat:@"-%c", optopt];
                         }
@@ -280,7 +280,7 @@ typedef NS_ENUM(NSUInteger, BRLOptionArgument) {
             } else {
                 [line appendString:@"                             "];
             }
-            if ([line length] > 37) {
+            if (line.length > 37) {
                 line = trimLine(line);
                 [line appendString:@"\n                                     "];
             }
